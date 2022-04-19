@@ -32,6 +32,5 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Player");
 	TArray<FTransform> spawns;
-
-
+	
 };

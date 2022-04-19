@@ -92,10 +92,16 @@ void ATankPawn::ChangeHealth(int changeAmount)
 		Explode();
 }
 
+void ATankPawn::ChangeScore(int changeAmount)
+{
+	score += changeAmount;
+}
+
 void ATankPawn::Explode()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Player is dead"));
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("Hit Player: %s"), *this->GetName()));
+	
 	//respawn
 }
 

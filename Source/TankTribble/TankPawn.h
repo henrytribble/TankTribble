@@ -6,9 +6,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Projectile.h"
-#include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankPawn.generated.h"
+
+
 
 UCLASS()
 class TANKTRIBBLE_API ATankPawn : public APawn
@@ -44,6 +45,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Firepower");
 	int ammo = 1;
 
+	UPROPERTY(EditAnywhere, Category = "Firepower");
+	int score = 0;
+	
 	UPROPERTY(EditAnywhere, Category = "Firepower");
 	int index = 0;
 
@@ -95,6 +99,8 @@ public:
 
 	void ChangeHealth(int changeAmount);
 
+	void ChangeScore(int changeAmount);
+	
 	void Explode();
 
 #pragma endregion

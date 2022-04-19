@@ -60,6 +60,8 @@ void AProjectile::OnCollisionEnter(UPrimitiveComponent* HitComp, AActor* OtherAc
 		ATankPawn* player = Cast<ATankPawn>(OtherActor);
 		if (player)
 		{
+			parent->ChangeScore(player == this->parent ? -1 : 1);
+			
 			player->ChangeHealth(damage);
 			SpawnExplosion<UParticleSystem>(explosion);
 			Reset();
