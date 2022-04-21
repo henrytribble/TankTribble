@@ -30,6 +30,9 @@ void AProjectile::BeginPlay()
 void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	timer += DeltaTime;
+	if(timer >= fuse)
+		Reset();
 
 }
 
@@ -41,7 +44,7 @@ void AProjectile::Reset()
 
 void AProjectile::Bounce()
 {
-	SpawnExplosion<UParticleSystem>(sparks);
+	SpawnExplosion<UParticleSystem>(explosion);
 	//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), explosion, GetActorLocation(), GetActorRotation());
 
 	bounces--;
@@ -63,7 +66,8 @@ void AProjectile::OnCollisionEnter(UPrimitiveComponent* HitComp, AActor* OtherAc
 			parent->ChangeScore(player == this->parent ? -1 : 1);
 			
 			player->ChangeHealth(damage);
-			SpawnExplosion<UParticleSystem>(explosion);
+			GetWorld()->SpawnActor<AActor>(coupDeGrace,OtherActor->GetActorTransform());
+			
 			Reset();
 		}
 		else

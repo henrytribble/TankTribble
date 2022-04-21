@@ -29,6 +29,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Player");
 	int health = 100;
 
+	UPROPERTY(EditAnywhere, Category = "Player");
+	bool isDead = false;
+
 	UPROPERTY(EditAnywhere, Category = "Movement");
 	float moveSpeed;
 
@@ -102,6 +105,8 @@ public:
 	void ChangeScore(int changeAmount);
 	
 	void Explode();
+
+	void Respawn();
 
 #pragma endregion
 };

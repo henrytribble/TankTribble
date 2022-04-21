@@ -23,7 +23,8 @@ void ATankPawn::BeginPlay()
 void ATankPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	ATankPawn::Drive(DeltaTime);
+	if(!isDead)
+		ATankPawn::Drive(DeltaTime);
 	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("g %s")));
 }
 
@@ -101,9 +102,15 @@ void ATankPawn::Explode()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Player is dead"));
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("Hit Player: %s"), *this->GetName()));
-	
+	isDead = true;
 	//respawn
 }
+
+void ATankPawn::Respawn()
+{
+	isDead = false;
+}
+
 
 #pragma endregion
 

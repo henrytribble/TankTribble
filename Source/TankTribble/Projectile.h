@@ -30,6 +30,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Projectile");
 	float fuse = 8.0f;
 
+	float timer = 0.0f;
+
+	
 	UPROPERTY(EditAnywhere, Category = "Projectile");
 	int bounces = 4;
 
@@ -43,7 +46,7 @@ public:
 	UParticleSystem* explosion;
 
 	UPROPERTY(EditAnywhere, Category = "Projectile");
-	UParticleSystem* sparks;
+	TSubclassOf<AActor> coupDeGrace;
 
 	UPROPERTY(EditAnywhere, Category = "Projectile");
 	ATankPawn* parent;

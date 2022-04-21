@@ -105,7 +105,15 @@ public:
 	{
 		for (int i = 0; i < players.Num(); i++)
 		{
-			FTransform mazePiecePos = mazeGenerator->mazeObjs[FMath::RandRange(0, mazeGenerator->mazeObjs.Num())]->GetActorTransform();
+			//get position for player to spawn
+			AActor* pieceToSpawnOn = mazeGenerator->mazeObjs[FMath::RandRange(0, mazeGenerator->mazeObjs.Num())];
+			
+			//check spawn is not deadend, otherwise they would spawn inside a wall
+			while(pieceToSpawnOn->GetClass() == mazeGenerator->deadEndPiece.Get())
+				pieceToSpawnOn = mazeGenerator->mazeObjs[FMath::RandRange(0, mazeGenerator->mazeObjs.Num())];
+
+			//get the position of chosen piece and spawn the player there
+			FTransform mazePiecePos = pieceToSpawnOn->GetActorTransform();
 			FVector spawnPos = FVector(mazePiecePos.GetLocation().X, mazePiecePos.GetLocation().Y, players[i]->playerPawn->GetActorLocation().Z);
 			players[i]->playerPawn->SetActorLocation(spawnPos);
 		}
