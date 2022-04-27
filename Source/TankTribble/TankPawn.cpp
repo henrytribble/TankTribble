@@ -16,6 +16,9 @@ void ATankPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	muzzlePos = Cast<USceneComponent>(GetDefaultSubobjectByName(TEXT("Muzzle")));
+	mesh = Cast<UMeshComponent>(GetDefaultSubobjectByName(TEXT("TankMesh")));
+	SetTangible<void>(true);
+	AssignMaterial<void>();
 }
 
 
@@ -75,7 +78,7 @@ void ATankPawn::SteerInput(float value)
 
 void ATankPawn::Fire()
 {
-	if (projectile && ammo > 0)
+	if (projectile && ammo > 0 && !isDead)
 	{
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Ammo: %d"), ammo));
 		FTransform _muzzle = muzzlePos->GetComponentTransform();
@@ -100,9 +103,9 @@ void ATankPawn::ChangeScore(int changeAmount)
 
 void ATankPawn::Explode()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Player is dead"));
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("Hit Player: %s"), *this->GetName()));
 	isDead = true;
+	SetTangible<void>(false);
 	//respawn
 }
 

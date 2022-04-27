@@ -69,4 +69,6 @@ public:
 	{
 		return (T*)(UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), explosion, GetActorLocation(), GetActorRotation()));
 	}
+
+
 };

@@ -6,6 +6,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Projectile.h"
+#include "Kismet/KismetMaterialLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankPawn.generated.h"
 
@@ -41,20 +42,22 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Firepower");
 	TSubclassOf<class AProjectile> projectile;
 
-
 	UPROPERTY(EditAnywhere, Category = "Firepower");
 	USceneComponent* muzzlePos;
 	
 	UPROPERTY(EditAnywhere, Category = "Firepower");
 	int ammo = 1;
 
-	UPROPERTY(EditAnywhere, Category = "Firepower");
+	UPROPERTY(EditAnywhere, Category = "Player");
 	int score = 0;
+
+	UPROPERTY(EditAnywhere, Category = "Player");
+	FName name = "1";
 	
-	UPROPERTY(EditAnywhere, Category = "Firepower");
+	UPROPERTY(EditAnywhere, Category = "Player");
 	int index = 0;
 
-	UPROPERTY(EditAnywhere, Category = "Firepower");
+	UPROPERTY(EditAnywhere, Category = "Player");
 	int totalPlayers = 2;
 
 protected:
@@ -65,7 +68,8 @@ protected:
 
 	FVector moveDir;
 
-
+	UMeshComponent* mesh;
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -109,4 +113,24 @@ public:
 	void Respawn();
 
 #pragma endregion
+
+	template<typename T>
+void SetTangible(bool tangible)
+	{
+		//set invisible
+		mesh->SetVisibility(tangible);
+		//remove collisions
+		SetActorEnableCollision(tangible);
+	}
+
+	template<typename T>
+	void AssignMaterial() const
+	{
+		UMaterialInstanceDynamic* MI = UMaterialInstanceDynamic::Create(mesh->GetMaterial(0), this->GetClass());
+		mesh->SetMaterial(0, MI);
+		const FVector4 colour = FVector4(FMath::FRandRange(0,1.0), FMath::RandRange(0,1.0), FMath::RandRange(0,1.0), 1);
+		
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("g %f"), colour.X));
+		MI->SetVectorParameterValue(FName("Colour"), FLinearColor(colour));
+	}
 };
